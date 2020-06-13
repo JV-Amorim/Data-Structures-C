@@ -28,11 +28,7 @@ void Push(ChainedStack* stack, void* newElement)
 
     newNode = malloc(sizeof(Node));
     newNode->previous = stack->top;
-    newNode->next = NULL;
     newNode->element = newElement;
-
-    if (IsTheChainedStackEmpty(stack) == 0)
-        stack->top->next = newNode;
 
     stack->top = newNode;
     stack->length += 1;
@@ -53,9 +49,6 @@ void* Pop(ChainedStack* stack)
     elementToReturn = removedNode->element;
 
     stack->top = stack->top->previous;
-    if (stack->top != NULL)
-        stack->top->next = NULL;
-
     stack->length -= 1;
 
     free(removedNode);

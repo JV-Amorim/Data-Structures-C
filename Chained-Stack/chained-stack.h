@@ -5,8 +5,7 @@ typedef struct _Node Node;
 struct _Node
 {
     Node* previous;
-    Node* next;
-    void** element;
+    void* element;
 };
 
 typedef struct _ChainedStack ChainedStack;
