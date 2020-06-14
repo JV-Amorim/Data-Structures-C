@@ -22,6 +22,9 @@
 
 - [Table of Contents](#table-of-contents)
 - [Description](#description)
+- [Data Structures](#data-structures)
+  - [Stack](#stack)
+  - [Queue](#queue)
 - [How to Use](#how-to-use)
 - [How to Contribute](#how-to-contribute)
 - [License](#license)
@@ -33,6 +36,22 @@ Implementation of several data structures in C language.
 <p align="center">
     <img alt="Data Structures" src="data-structures.png">
 </p>
+
+## Data Structures
+
+### Stack
+
+Stack is a linear data structure which follows the order LIFO (Last In First Out) to perform the operations. The last element added to the stack is the first to be removed (like a real stack of dishes).
+
+In this repository, there are two different implementations of this data structure:
+
+- Stack: Implementation of a stack using a dynamically allocated array. The capacity of this type of stack is determined in its creation (with the `StackFactory()` function). Because it's implemented using an array, the capacity cannot be changed without memory reallocation. This reallocation can be done with `GrowStack()` function, that creates a new memory allocation with the twice size of the previous and copies the elements of previous stack to this new allocated stack. These operations are costly, so the Chained Stack is a more efficient implementation.
+
+- Chained Stack: Implementation of a stack using several dynamically allocated `Nodes`. The function of the `Stack` struct is only to register the length and the node that are in the top of the stack. Each node of the stack is linked (with memory address pointers) to its previous node. Like a iron chain, where its length can be increased adding more iron links, the length of the Chained Stack can be increased adding more nodes to it (without the need of memory reallocation).
+
+### Queue
+
+Queue is a linear data structure which follows the order FIFO (First In First Out) to perform the operations. The first element added to the stack is the first to be removed (like a real waiting queue of a clinic).
 
 ## How To Use
 
