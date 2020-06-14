@@ -28,7 +28,7 @@ void Push(Stack* stack, void* newElement)
     if (stack->top == stack->capacity - 1)
     {
         printf("The stack is full.\n");
-        return;
+        GrowStack(stack);
     }
 
     stack->top += 1;
@@ -80,4 +80,26 @@ void ShowStackStatus(Stack* stack)
     }
     
     printf("Stack status: Capacity = %i | Top = %i \n", stack->capacity, stack->top + 1);
+}
+
+void GrowStack(Stack* stack)
+{
+    void** newElementsArray;
+    void** oldElementsArray;
+    int newCapacity, counter;
+
+    newCapacity = stack->capacity * 2;
+
+    newElementsArray = malloc(sizeof(void*) * newCapacity);
+    oldElementsArray = stack->elements;
+
+    for (counter = 0; counter <= stack->top; counter++)
+        newElementsArray[counter] = oldElementsArray[counter];
+
+    stack->capacity = newCapacity;
+    stack->elements = newElementsArray;
+
+    printf("New capacity of the stack: %i \n", newCapacity);
+
+    free(oldElementsArray);
 }

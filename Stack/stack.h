@@ -16,4 +16,6 @@ void* Pop(Stack* stack);
 void DesallocateStack(Stack* stack, void (*ElementDesallocationFunction)());
 void ShowStackStatus(Stack* stack);
 
+void GrowStack(Stack* stack);
+
 #endif

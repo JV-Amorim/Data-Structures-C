@@ -8,9 +8,7 @@ void StackUtilizationExample()
     Stack* stack;
     Developer* dev;
 
-    stack = StackFactory(3);
-
-    ShowStackStatus(stack);
+    stack = StackFactory(2);
 
     Push(stack, DeveloperFactory());
     Push(stack, DeveloperFactory());
