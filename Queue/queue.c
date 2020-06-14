@@ -2,50 +2,67 @@
 #include <stdlib.h>
 #include "queue.h"
 
-Queue* QueueFactory()
+Queue* QueueFactory(int capacity)
 {
     Queue* newQueue = malloc(sizeof(Queue));
-    newQueue->head = NULL;
-    newQueue->tail = NULL;
-    newQueue->length = 0;
+    newQueue->elements = malloc(sizeof(void*) * capacity);
+    newQueue->capacity = capacity;
+    newQueue->head = 0;
+    newQueue->tail = -1;
     return newQueue;
 }
 
 int IsTheQueueEmpty(Queue* queue)
 {
-    if(queue == NULL)
+    if (queue == NULL)
         return 1;
-    if (queue->length == 0)
+    if (queue->tail < queue->head)
         return 1;
     return 0;
 }
 
+int IsTheQueueFull(Queue* queue)
+{
+    if (queue->tail + 1 >= queue->capacity + queue->head)
+        return 1;
+    return 0;
+}
+
+int GetTheHeadValueRelativeToTheCapacity(Queue* queue)
+{
+    return queue->head % queue->capacity;
+}
+
+int GetTheTailValueRelativeToTheCapacity(Queue* queue)
+{
+    return queue->tail % queue->capacity;
+}
+
 void Enqueue(Queue* queue, void* newElement)
 {
-    Node* newNode;
+    int tailRelativeValue;
 
     if (queue == NULL)
     {
-        printf("The queue is null.");
+        printf("The queue is null.\n");
+        return;
+    }
+    if (IsTheQueueFull(queue) == 1)
+    {
+        printf("The queue is full.\n");
         return;
     }
 
-    newNode = malloc(sizeof(Node));
-    newNode->element = newElement;
-    newNode->next = NULL;
+    queue->tail += 1;
 
-    if (IsTheQueueEmpty(queue) == 1)
-        queue->head = newNode;
-    else
-        queue->tail->next = newNode;
+    tailRelativeValue = GetTheTailValueRelativeToTheCapacity(queue);
 
-    queue->tail = newNode;
-    queue->length += 1;
+    queue->elements[tailRelativeValue] = newElement;
 }
 
 void* Dequeue(Queue* queue)
 {
-    Node* removedNode;
+    int headRelativeValue;
     void* elementToReturn;
 
     if (IsTheQueueEmpty(queue) == 1)
@@ -54,72 +71,27 @@ void* Dequeue(Queue* queue)
         return NULL;
     }
 
-    removedNode = queue->head;
-    elementToReturn = removedNode->element;
+    headRelativeValue = GetTheHeadValueRelativeToTheCapacity(queue);
 
-    queue->head = queue->head->next;
-    queue->length -= 1;
+    elementToReturn = queue->elements[headRelativeValue];
+    queue->head++;
 
-    free(removedNode);
     return elementToReturn;
 }
 
 void DesallocateQueue(Queue* queue, void (*ElementDesallocationFunction)())
 {
-    Node* currentNode;
+    int headRelativeValue;
 
     if (queue == NULL)
         return;
 
-    while (queue->head != NULL)
+    for (queue->head = queue->head ; queue->head <= queue->tail; queue->head++)
     {
-        currentNode = queue->head;
-        queue->head = queue->head->next;
-
-        ElementDesallocationFunction(currentNode->element);
-        free(currentNode);
+        headRelativeValue = GetTheHeadValueRelativeToTheCapacity(queue);
+        ElementDesallocationFunction(queue->elements[headRelativeValue]);
     }
 
+    free(queue->elements);
     free(queue);
-}
-
-void ShowQueueStatus(Queue* queue)
-{
-    if (queue == NULL)
-    {
-        printf("The queue is null.");
-        return;
-    }
-
-    if (IsTheQueueEmpty(queue) == 1)
-    {
-        printf("The queue is empty.\n");
-        return;
-    }
-
-    printf("Queue status: Length = %i \n", queue->length);
-}
-
-void ReadDataFromAllElements(Queue* queue, void (*ElementReadFunction)())
-{
-    Node* currentNode;
-    int counter;
-    
-    if (IsTheQueueEmpty(queue) == 1)
-    {
-        printf("The queue is empty or null.\n");
-        return;
-    }
-
-    currentNode = queue->head;
-    counter = 0;
-
-    while(currentNode != NULL)
-    {
-        printf("Element %i: \n", counter);
-        ElementReadFunction(currentNode->element);
-
-        currentNode = currentNode->next;
-        counter += 1;
-    }
 }

@@ -1,28 +1,22 @@
-#ifndef QUEUE_H
-#define QUEUE_H
-
-typedef struct _Node Node;
-struct _Node
-{
-    Node* next;
-    void* element;
-};
+#ifndef CHAINED_QUEUE_H
+#define CHAINED_QUEUE_H
 
 typedef struct _Queue Queue;
 struct _Queue
 {
-    Node* head;
-    Node* tail;
-    int length;
+    int capacity;
+    int head;
+    int tail;
+    void** elements;
 };
 
-Queue* QueueFactory();
+Queue* QueueFactory(int capacity);
 int IsTheQueueEmpty(Queue* queue);
+int IsTheQueueFull(Queue* queue);
+int GetTheHeadValueRelativeToTheCapacity(Queue* queue);
+int GetTheTailValueRelativeToTheCapacity(Queue* queue);
 void Enqueue(Queue* queue, void* newElement);
 void* Dequeue(Queue* queue);
 void DesallocateQueue(Queue* queue, void (*ElementDesallocationFunction)());
-void ShowQueueStatus(Queue* queue);
-
-void ReadDataFromAllElements(Queue* queue, void (*ElementReadFunction)());
 
 #endif

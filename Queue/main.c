@@ -8,19 +8,11 @@ void QueueUtilizationExample()
     Queue* queue;
     Developer* dev;
 
-    queue = QueueFactory();
+    queue = QueueFactory(3);
 
     Enqueue(queue, DeveloperFactory());
     Enqueue(queue, DeveloperFactory());
     Enqueue(queue, DeveloperFactory());
-
-    ShowQueueStatus(queue);
-
-    printf("\nReading all queue data without removing elements: \n");
-
-    ReadDataFromAllElements(queue, &ReadDeveloperData);
-
-    printf("\nReading all queue data while removing elements: \n");
 
     dev = Dequeue(queue);
     ReadDeveloperData(dev);
@@ -30,11 +22,16 @@ void QueueUtilizationExample()
     ReadDeveloperData(dev);
     free(dev);
 
+    Enqueue(queue, DeveloperFactory());
+    Enqueue(queue, DeveloperFactory());
+
     dev = Dequeue(queue);
     ReadDeveloperData(dev);
     free(dev);
 
-    ShowQueueStatus(queue);
+    dev = Dequeue(queue);
+    ReadDeveloperData(dev);
+    free(dev);
 
     DesallocateQueue(queue, &DesallocateDeveloper);
 }

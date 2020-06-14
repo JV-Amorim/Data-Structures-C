@@ -53,6 +53,12 @@ In this repository, there are two different implementations of this data structu
 
 Queue is a linear data structure which follows the order FIFO (First In First Out) to perform the operations. The first element added to the stack is the first to be removed (like a real waiting queue of a clinic).
 
+In this repository, there are two different implementations of this data structure:
+
+- Queue: Implementation of a queue using a dynamically allocated array. This implementation used here is also known as "Circular Queue". The capacity of this type of queue is determined in its creation (with the `QueueFactory()` function). Because it's implemented using an array, the capacity cannot be changed without memory reallocation. The operations used to made the reallocation are costly, so the Chained Queue is a better implementation.
+
+- Chained Queue: Implementation of a queue using several dynamically allocated `Nodes`. The function of the `Queue` struct is only to register the length and the nodes that are the head and the tail of the queue. Each node of the queue is linked (with memory address pointers) to its next node. Like a iron chain, where its length can be increased adding more iron links, the length of the Chained Queue can be increased adding more nodes to it (without the need of memory reallocation).
+
 ## How To Use
 
 Under construction...
